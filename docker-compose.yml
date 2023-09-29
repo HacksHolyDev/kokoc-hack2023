@@ -20,6 +20,7 @@ services:
       springdoc.api-docs.enabled: true
       springdoc.api-docs.path: /api/rest-dock
       springdoc.swagger-ui.path: /api/swagger-ui
+      springdoc.swagger-ui.server: "http://51.250.12.218/"
 
     networks:
       - app_network
