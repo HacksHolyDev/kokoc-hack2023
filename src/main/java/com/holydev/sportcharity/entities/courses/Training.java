@@ -26,6 +26,9 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingType training_type;
 
+    @Column
+    private int training_cost;
+
     @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "trainings_timers",

@@ -21,6 +21,8 @@ public class Timer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // TODO - сделать поля для дат
+
     private int start_date;
 
     private int period;
