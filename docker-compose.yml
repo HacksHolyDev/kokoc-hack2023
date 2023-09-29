@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  backend:
+    container_name: backend
+    build: ./
+    restart: "always"
+    ports:
+      - "5000:8080"
+    depends_on:
+      - hack_db
+    env_file:
+      - .env
+    environment:
+      spring.datasource.url: "jdbc:postgresql://hack_db:5432/${DB_NAME}"
+      spring.datasource.username: ${DB_USER}
+      spring.datasource.password: ${DB_PASSWORD}
+      spring.jpa.hibernate.ddl-auto: ${DDL_AUTO}
+
+      springdoc.api-docs.enabled: true
+      springdoc.api-docs.path: /api/rest-dock
+      springdoc.swagger-ui.path: /api/swagger-ui
+
+    networks:
+      - app_network
+
+    entrypoint: [ "java", "-jar", "app.jar" ]
+
+  hack_db:
+    container_name: hack_db
+    image: postgres:latest
+    restart: "always"
+    env_file:
+      - .env
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_HOST: hack_db
+      POSTGRES_PORT: 5432
+      POSTGRES_POOL: 10
+
+    volumes:
+      - app_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+volumes:
+  app_data:
+    name: app_data
+
+networks:
+  app_network:
+    name: app_network
+    driver: bridge
