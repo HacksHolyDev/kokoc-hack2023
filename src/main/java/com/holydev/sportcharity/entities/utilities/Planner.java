@@ -15,7 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-// Должен быть закреплен за юзером (коннект между юзером и training )
 public class Planner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

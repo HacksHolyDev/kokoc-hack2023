@@ -3,6 +3,8 @@ package com.holydev.sportcharity.entities.users;
 
 import com.holydev.sportcharity.entities.courses.Course;
 import com.holydev.sportcharity.entities.courses.Exercise;
+import com.holydev.sportcharity.entities.organizations.Department;
+import com.holydev.sportcharity.entities.organizations.Fund;
 import com.holydev.sportcharity.entities.utilities.Planner;
 import com.holydev.sportcharity.global_utilities.Token.Token;
 import jakarta.persistence.*;
@@ -53,23 +55,31 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "creator", orphanRemoval = true)
     @Builder.Default
+    @ToString.Exclude
     private Set<Course> created_courses = new LinkedHashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "users_courses",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "courses_id"))
-    @Builder.Default
-    private Set<Course> attended_courses = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "creator", orphanRemoval = true)
     @Builder.Default
+    @ToString.Exclude
     private Set<Exercise> created_exercises = new LinkedHashSet<>();
 
     @ToString.Exclude
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "planner_id")
     private Planner planner;
+
+    @ManyToOne
+    @JoinColumn(name = "fund_id")
+    private Fund fund;
+
+    @OneToOne(mappedBy = "head", orphanRemoval = true)
+    private Department head_of_department;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

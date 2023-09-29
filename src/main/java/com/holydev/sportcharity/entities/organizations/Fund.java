@@ -1,24 +1,24 @@
-package com.holydev.sportcharity.entities.courses;
+package com.holydev.sportcharity.entities.organizations;
 
-
-import com.holydev.sportcharity.entities.organizations.CharityCategory;
 import com.holydev.sportcharity.entities.users.User;
 import com.holydev.sportcharity.entities.utilities.CourseUserFundMapper;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "courses")
+@Table(name = "funds")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Course {
+public class Fund {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,25 +26,18 @@ public class Course {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    private CharityCategory charity_category;
-
-    @Column
-    private int total_trainings_count;
-
-    @Column
-    private int total_cost;
+    @ElementCollection
+    @CollectionTable(name = "funds_charity_categories", joinColumns = @JoinColumn(name = "owner_id"))
+    private List<CharityCategory> charityCategories = new ArrayList<>();
 
     @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private User creator;
+    @OneToMany(mappedBy = "fund", orphanRemoval = true)
+    private Set<User> agents = new LinkedHashSet<>();
 
-
-    @OneToMany(mappedBy = "course", orphanRemoval = true)
+    @OneToMany(mappedBy = "fund", orphanRemoval = true)
     @ToString.Exclude
     private Set<CourseUserFundMapper> courseUserFundMappers = new LinkedHashSet<>();
 
