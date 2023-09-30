@@ -1,10 +1,10 @@
 package com.holydev.sportcharity.services.Security;
 
 
-import com.holydev.sportcharity.entities.DTO.Auth.AuthMailRequest;
-import com.holydev.sportcharity.entities.DTO.Auth.AuthResponse;
-import com.holydev.sportcharity.entities.DTO.Auth.AuthUNameRequest;
-import com.holydev.sportcharity.entities.DTO.Register.RegistrationRequest;
+import com.holydev.sportcharity.DTO.Auth.AuthMailRequest;
+import com.holydev.sportcharity.DTO.Auth.AuthResponse;
+import com.holydev.sportcharity.DTO.Auth.AuthUNameRequest;
+import com.holydev.sportcharity.DTO.Auth.Register.RegistrationRequest;
 import com.holydev.sportcharity.entities.users.Role;
 import com.holydev.sportcharity.entities.users.User;
 import com.holydev.sportcharity.global_utilities.Token.Token;
