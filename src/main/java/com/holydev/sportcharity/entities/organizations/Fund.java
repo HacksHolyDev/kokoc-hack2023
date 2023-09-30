@@ -26,11 +26,12 @@ public class Fund {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(unique = true)
     private String description;
 
-    @Column(unique = true)
     private Long budget;
+
+    @Column
+    private boolean deleted;
 
     @ElementCollection
     @CollectionTable(name = "funds_charity_categories", joinColumns = @JoinColumn(name = "owner_id"))
