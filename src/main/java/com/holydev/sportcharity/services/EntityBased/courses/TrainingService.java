@@ -17,10 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrainingService {
     private final TrainingRepository trainingRepo;
-    private final ExerciseService exerciseService;
 
+    private final ExerciseService exerciseService;
     private final ExerciseRepository exerciseRepo;
+
     private final UserService userService;
+
 
     public List<Training> getAll() {
         return trainingRepo.findAll();
@@ -66,5 +68,29 @@ public class TrainingService {
         var object = existObject.get();
         object.setDeleted(true);
         trainingRepo.save(object);
+    }
+
+    public void addExercise(long id, long trainingId) {
+        var exercise = exerciseService.get(id);
+        var training = get(trainingId);
+
+        training.setTraining_cost(training.getTraining_cost() + exercise.getCost_per_retry() * exercise.getMaximal_retry());
+        training.getExercises().add(exercise);
+        trainingRepo.save(training);
+
+        exercise.getTrainings().add(training);
+        exerciseRepo.save(exercise);
+    }
+
+    public void removeExercise(long id, long trainingId) {
+        var exercise = exerciseService.get(id);
+        var training = get(trainingId);
+
+        training.setTraining_cost(training.getTraining_cost() - exercise.getCost_per_retry() * exercise.getMaximal_retry());
+        training.getExercises().remove(exercise);
+        trainingRepo.save(training);
+
+        exercise.getTrainings().remove(training);
+        exerciseRepo.save(exercise);
     }
 }

@@ -1,5 +1,6 @@
 package com.holydev.sportcharity.controllers;
 
+import com.holydev.sportcharity.DTO.courses.TrainingDTO.TrainingExerciseInfo;
 import com.holydev.sportcharity.DTO.courses.TrainingDTO.TrainingInfo;
 import com.holydev.sportcharity.entities.courses.Training;
 import com.holydev.sportcharity.services.EntityBased.courses.TrainingService;
@@ -55,6 +56,20 @@ public class TrainingController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         trainingService.delete(id);
+    }
+
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
+    @Operation(summary = "add exercise to training")
+    @PostMapping("/add")
+    public void add(@RequestBody TrainingExerciseInfo info) {
+        trainingService.addExercise(info.getExerciseId(), info.getTrainingId());
+    }
+
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
+    @Operation(summary = "remove exercise from training")
+    @PostMapping("/remove")
+    public void remove(@RequestBody TrainingExerciseInfo info) {
+        trainingService.removeExercise(info.getExerciseId(), info.getTrainingId());
     }
 
     private TrainingInfo convert(Training training) {
