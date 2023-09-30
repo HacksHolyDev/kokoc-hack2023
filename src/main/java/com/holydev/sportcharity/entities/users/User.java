@@ -41,7 +41,7 @@ public class User implements UserDetails {
     private String fio;
 
     @Column(nullable = false, unique = true)
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     @ToString.Exclude
     private String password;
 
