@@ -24,8 +24,11 @@ public class Department {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(unique = true)
+    @Column
     private String description;
+    
+    @Column
+    private boolean deleted;
 
     @ToString.Exclude
     @OneToOne(orphanRemoval = true)
