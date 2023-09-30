@@ -1,9 +1,12 @@
 package com.holydev.sportcharity.entities.utilities;
 
 import com.holydev.sportcharity.entities.courses.Training;
+import com.holydev.sportcharity.entities.users.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,16 +24,20 @@ public class Timer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO - сделать поля для дат
+    private String name;
 
-    private int start_date;
+    private String description;
 
-    private int period;
+    private LocalDate date;
 
-    private int start_time;
+    private long durationInMinutes;
 
-    private int duration;
+    private LocalTime start_time;
 
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "owning_planner_id")
