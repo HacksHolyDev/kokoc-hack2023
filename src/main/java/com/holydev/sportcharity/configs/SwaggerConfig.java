@@ -41,7 +41,7 @@ public class SwaggerConfig {
                                         .bearerFormat("JWT")))
                 .info(new Info()
                         .title("")
-                        .description("Kokoc app")
+                        .description("SportCharity app")
                         .version("1.0"));
     }
 }
