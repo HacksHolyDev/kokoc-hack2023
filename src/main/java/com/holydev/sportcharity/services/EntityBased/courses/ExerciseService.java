@@ -6,7 +6,6 @@ import com.holydev.sportcharity.entities.courses.TrainingType;
 import com.holydev.sportcharity.global_utilities.Exceptions.AlreadyExistException;
 import com.holydev.sportcharity.global_utilities.Exceptions.NotFoundException;
 import com.holydev.sportcharity.repositories.courses.ExerciseRepository;
-import com.holydev.sportcharity.services.RoleBased.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExerciseService {
     private final ExerciseRepository exerciseRepo;
-    private final UserService userService;
+
 
     public List<Exercise> getAll() {
         return exerciseRepo.findAll();
@@ -24,54 +23,53 @@ public class ExerciseService {
 
     public Exercise get(long id) {
         return exerciseRepo.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Not found exer id = %d", id)));
+                .orElseThrow(() -> new NotFoundException(String.format("Not found object id = %d", id)));
     }
 
-    public void create(long userId, ExerciseInfo info) {
-        var user = userService.getUser(userId);
-
-        var existCourse = exerciseRepo.findByName(info.getName());
-        if (existCourse.isPresent()) {
-            throw new AlreadyExistException(String.format("Exist exer name = %s", info.getName()));
+    public Exercise create(ExerciseInfo info) {
+        var existObject = exerciseRepo.findByName(info.getName());
+        if (existObject.isPresent()) {
+            throw new AlreadyExistException(String.format("Exist object name = %s", info.getName()));
         }
 
-        var course = new Exercise();
-        course.setName(info.getName());
-        course.setDescription(info.getDescription());
-        course.setHref(info.getHref());
-        course.setCost_per_retry(info.getCost_per_retry());
-        course.setMinimal_retry(info.getMinimal_retry());
-        course.setMaximal_retry(info.getMaximal_retry());
-        course.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
+        var object = new Exercise();
+        object.setName(info.getName());
+        object.setDescription(info.getDescription());
+        object.setHref(info.getHref());
+        object.setCost_per_retry(info.getCost_per_retry());
+        object.setMinimal_retry(info.getMinimal_retry());
+        object.setMaximal_retry(info.getMaximal_retry());
+        object.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
 
-        exerciseRepo.save(course);
+        return exerciseRepo.save(object);
     }
 
-    public void update(long courseId, ExerciseInfo info) {
-        var existCourse = exerciseRepo.findById(courseId);
-        if (existCourse.isEmpty()) {
-            throw new NotFoundException(String.format("Not found exer id = %d", courseId));
+    public void update(long id, ExerciseInfo info) {
+        var existObject = exerciseRepo.findById(id);
+        if (existObject.isEmpty()) {
+            throw new NotFoundException(String.format("Not found object id = %d", id));
         }
 
-        var course = existCourse.get();
-        course.setName(info.getName());
-        course.setDescription(info.getDescription());
-        course.setHref(info.getHref());
-        course.setCost_per_retry(info.getCost_per_retry());
-        course.setMinimal_retry(info.getMinimal_retry());
-        course.setMaximal_retry(info.getMaximal_retry());
-        course.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
+        var object = existObject.get();
+        object.setName(info.getName());
+        object.setDescription(info.getDescription());
+        object.setHref(info.getHref());
+        object.setCost_per_retry(info.getCost_per_retry());
+        object.setMinimal_retry(info.getMinimal_retry());
+        object.setMaximal_retry(info.getMaximal_retry());
+        object.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
 
-        exerciseRepo.save(course);
+        exerciseRepo.save(object);
     }
 
-    public void delete(long courseId) {
-        var existCourse = exerciseRepo.findById(courseId);
-        if (existCourse.isEmpty()) {
-            throw new NotFoundException(String.format("Not found exer id = %d", courseId));
+    public void delete(long id) {
+        var existObject = exerciseRepo.findById(id);
+        if (existObject.isEmpty()) {
+            throw new NotFoundException(String.format("Not found object id = %d", id));
         }
 
-        var course = existCourse.get();
-        exerciseRepo.delete(course);
+        var object = existObject.get();
+        object.setDeleted(true);
+        exerciseRepo.save(object);
     }
 }

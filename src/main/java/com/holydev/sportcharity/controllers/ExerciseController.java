@@ -2,14 +2,11 @@ package com.holydev.sportcharity.controllers;
 
 import com.holydev.sportcharity.DTO.courses.ExerciseDTO.ExerciseInfo;
 import com.holydev.sportcharity.entities.courses.Exercise;
-import com.holydev.sportcharity.entities.users.User;
-import com.holydev.sportcharity.global_utilities.AuthorityAnnotations.AdminAuth;
-import com.holydev.sportcharity.global_utilities.AuthorityAnnotations.UserAuth;
 import com.holydev.sportcharity.services.EntityBased.courses.ExerciseService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,50 +17,46 @@ import java.util.List;
 public class ExerciseController {
     private final ExerciseService exerciseService;
 
-    @UserAuth
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT", "USER"})
     @Operation(summary = "get all exercise")
     @GetMapping
     public ResponseEntity<List<ExerciseInfo>> getAll() {
-        var courses = exerciseService.getAll()
+        var objects = exerciseService.getAll()
                 .stream().map(this::convert)
                 .toList();
-
-        return ResponseEntity.ok(courses);
+        return ResponseEntity.ok(objects);
     }
 
-
-    @UserAuth
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT", "USER"})
     @Operation(summary = "get exercise")
     @GetMapping("/{id}")
-    public ResponseEntity<ExerciseInfo> getOne(@PathVariable long id) {
-        var course = exerciseService.get(id);
-
-        return ResponseEntity.ok(convert(course));
+    public ResponseEntity<ExerciseInfo> get(@PathVariable long id) {
+        var object = exerciseService.get(id);
+        return ResponseEntity.ok(convert(object));
     }
 
-    @AdminAuth
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
     @Operation(summary = "Create exercise")
     @PostMapping
-    public void create(@RequestBody ExerciseInfo info) {
-        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        exerciseService.create(authUser.getId(), info);
-
+    public ResponseEntity<ExerciseInfo> create(@RequestBody ExerciseInfo info) {
+        var object = exerciseService.create(info);
+        return ResponseEntity.ok(convert(object));
     }
 
-    @AdminAuth
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
     @Operation(summary = "update exercise")
     @PutMapping("/{id}")
     public void update(@PathVariable long id, @RequestBody ExerciseInfo info) {
         exerciseService.update(id, info);
     }
 
-    @AdminAuth
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
     @Operation(summary = "delete exercise")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         exerciseService.delete(id);
     }
+
 
     private ExerciseInfo convert(Exercise exercise) {
         return ExerciseInfo.builder()

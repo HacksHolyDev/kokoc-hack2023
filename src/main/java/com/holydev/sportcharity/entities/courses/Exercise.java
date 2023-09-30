@@ -37,6 +37,9 @@ public class Exercise {
     @Column(nullable = false)
     private int maximal_retry;
 
+    @Column
+    private boolean deleted;
+
 /*    @ToString.Exclude
     @OneToMany(orphanRemoval = true)
     @Builder.Default
