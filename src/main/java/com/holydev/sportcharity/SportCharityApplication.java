@@ -35,6 +35,20 @@ public class SportCharityApplication {
             admin.setPassword(passwordEncoder.encode("2"));
             admin.setRole(Role.USER);
             userRepository.save(admin);
+
+            admin = new User();
+            admin.setEmail("3");
+            admin.setFio("3");
+            admin.setPassword(passwordEncoder.encode("3"));
+            admin.setRole(Role.DEP_HEAD);
+            userRepository.save(admin);
+
+            admin = new User();
+            admin.setEmail("4");
+            admin.setFio("4");
+            admin.setPassword(passwordEncoder.encode("4"));
+            admin.setRole(Role.FUND_AGENT);
+            userRepository.save(admin);
         }
 
         return args -> {
