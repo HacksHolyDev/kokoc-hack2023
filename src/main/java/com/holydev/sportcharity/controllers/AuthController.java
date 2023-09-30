@@ -1,10 +1,10 @@
 package com.holydev.sportcharity.controllers;
 
 
-import com.holydev.sportcharity.entities.DTO.Auth.AuthMailRequest;
-import com.holydev.sportcharity.entities.DTO.Auth.AuthResponse;
-import com.holydev.sportcharity.entities.DTO.Auth.AuthUNameRequest;
-import com.holydev.sportcharity.entities.DTO.Register.RegistrationRequest;
+import com.holydev.sportcharity.DTO.Auth.AuthMailRequest;
+import com.holydev.sportcharity.DTO.Auth.AuthResponse;
+import com.holydev.sportcharity.DTO.Auth.AuthUNameRequest;
+import com.holydev.sportcharity.DTO.Auth.Register.RegistrationRequest;
 import com.holydev.sportcharity.global_utilities.AuthorityAnnotations.AdminAuth;
 import com.holydev.sportcharity.global_utilities.AuthorityAnnotations.UserAuth;
 import com.holydev.sportcharity.services.Security.AuthService;

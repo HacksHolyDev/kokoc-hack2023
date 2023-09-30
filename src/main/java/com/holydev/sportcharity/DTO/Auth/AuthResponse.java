@@ -1,4 +1,4 @@
-package com.holydev.sportcharity.entities.DTO.Auth;
+package com.holydev.sportcharity.DTO.Auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
