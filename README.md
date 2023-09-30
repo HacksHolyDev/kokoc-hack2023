@@ -4,7 +4,7 @@
   <h2>Добро пожаловать в репозиторий команды HolyDev!</h2>
 </div>
 <p align="center">
-  <a href="LICENCE.md"><img src="https://i.ibb.co/681BJS2/image.png" alt="image" border="0"></a>
+  <a href="https://github.com/HacksHolyDev/kokoc-hack2023/blob/master/LICENSE"><img src="https://i.ibb.co/681BJS2/image.png" alt="image" border="0"></a>
 </p>
 </html>
 
