@@ -25,7 +25,7 @@ public class Course {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String description;
 
     @Column
@@ -33,9 +33,6 @@ public class Course {
 
     @Column
     private int total_cost;
-
-    @Column
-    private boolean deleted;
 
     @ToString.Exclude
     @ManyToOne
