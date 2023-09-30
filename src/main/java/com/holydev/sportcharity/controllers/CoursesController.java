@@ -3,8 +3,6 @@ package com.holydev.sportcharity.controllers;
 import com.holydev.sportcharity.DTO.courses.CourseDTO.CourseInfo;
 import com.holydev.sportcharity.entities.courses.Course;
 import com.holydev.sportcharity.entities.users.User;
-import com.holydev.sportcharity.global_utilities.AuthorityAnnotations.AdminAuth;
-import com.holydev.sportcharity.global_utilities.AuthorityAnnotations.UserAuth;
 import com.holydev.sportcharity.services.EntityBased.courses.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -20,49 +18,54 @@ import java.util.List;
 public class CoursesController {
     private final CourseService courseService;
 
-    @UserAuth
     @Operation(summary = "get all courses")
     @GetMapping
-    public ResponseEntity<List<CourseInfo>> getCourses() {
-        var courses = courseService.getCourses()
+    public ResponseEntity<List<CourseInfo>> getAll() {
+        var objects = courseService.getAll()
                 .stream().map(this::convert)
                 .toList();
-
-        return ResponseEntity.ok(courses);
+        return ResponseEntity.ok(objects);
     }
 
-
-    @UserAuth
     @Operation(summary = "get course")
     @GetMapping("/{id}")
-    public ResponseEntity<CourseInfo> getCourse(@PathVariable long id) {
-        var course = courseService.getCourse(id);
-
-        return ResponseEntity.ok(convert(course));
+    public ResponseEntity<CourseInfo> get(@PathVariable long id) {
+        var object = courseService.get(id);
+        return ResponseEntity.ok(convert(object));
     }
 
-    @AdminAuth
+
     @Operation(summary = "Create course")
     @PostMapping
-    public void createCourse(@RequestBody CourseInfo info) {
-        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        courseService.createCourse(authUser.getId(), info);
-
+    public ResponseEntity<CourseInfo> createCourse(@RequestBody CourseInfo info) {
+        var object = courseService.create(info);
+        return ResponseEntity.ok(convert(object));
     }
 
-    @AdminAuth
     @Operation(summary = "update course")
     @PutMapping("/{id}")
-    public void updateCourse(@PathVariable long id, @RequestBody CourseInfo info) {
-        courseService.updateCourse(id, info);
+    public void update(@PathVariable long id, @RequestBody CourseInfo info) {
+        courseService.update(id, info);
     }
 
-    @AdminAuth
     @Operation(summary = "delete course")
     @DeleteMapping("/{id}")
-    public void deleteCourse(@PathVariable long id) {
-        courseService.deleteCourse(id);
+    public void delete(@PathVariable long id) {
+        courseService.delete(id);
+    }
+
+    @Operation(summary = "attach user to course")
+    @PostMapping("/attach/{id}")
+    public void attach(@PathVariable long id) {
+        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        courseService.attachUser(authUser.getId(), id);
+    }
+
+    @Operation(summary = "detach user to course")
+    @PostMapping("/detach/{id}")
+    public void detach(@PathVariable long id) {
+        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        courseService.detachUser(authUser.getId(), id);
     }
 
     private CourseInfo convert(Course course) {
