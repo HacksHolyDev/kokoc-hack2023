@@ -7,6 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TimerRepository extends JpaRepository<Timer, Long> {
-    @Query(value = "select t from Timer t where t.user.id = ?1")
-    List<Timer> findByUserId(long id);
 }

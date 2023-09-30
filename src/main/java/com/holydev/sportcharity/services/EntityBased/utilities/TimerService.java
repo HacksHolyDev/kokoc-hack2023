@@ -13,6 +13,6 @@ public class TimerService {
     private final TimerRepository timerRepo;
 
     public List<Timer> getUserTimers(long userId) {
-        return timerRepo.findByUserId(userId);
+        return List.of();
     }
 }

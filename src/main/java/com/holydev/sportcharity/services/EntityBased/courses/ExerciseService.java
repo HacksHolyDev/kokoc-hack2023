@@ -43,7 +43,6 @@ public class ExerciseService {
         course.setMinimal_retry(info.getMinimal_retry());
         course.setMaximal_retry(info.getMaximal_retry());
         course.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
-        course.setCreator(user);
 
         exerciseRepo.save(course);
     }

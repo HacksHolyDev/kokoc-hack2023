@@ -1,13 +1,11 @@
 package com.holydev.sportcharity.entities.courses;
 
 
-import com.holydev.sportcharity.entities.utilities.Timer;
+import com.holydev.sportcharity.entities.utilities.Planner;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,6 +21,9 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String name;
+
     @Enumerated(EnumType.STRING)
     private TrainingType training_type;
 
@@ -30,12 +31,9 @@ public class Training {
     private int training_cost;
 
     @ToString.Exclude
-    @ManyToMany
-    @JoinTable(name = "trainings_timers",
-            joinColumns = @JoinColumn(name = "training_id"),
-            inverseJoinColumns = @JoinColumn(name = "timers_id"))
+    @OneToMany
     @Builder.Default
-    private Set<Timer> users_timers = new LinkedHashSet<>();
+    private Set<Planner> planners = new LinkedHashSet<>();
 
     @ToString.Exclude
     @ManyToMany
@@ -43,6 +41,13 @@ public class Training {
             joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "exercises_id"))
     @Builder.Default
-    private List<Exercise> exercises = new ArrayList<>();
+    private Set<Exercise> exercises = new LinkedHashSet<>();
 
+
+    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(name = "course_training",
+            joinColumns = @JoinColumn(name = "training_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses = new LinkedHashSet<>();
 }

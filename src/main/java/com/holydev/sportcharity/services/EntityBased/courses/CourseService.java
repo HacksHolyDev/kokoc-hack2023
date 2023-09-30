@@ -41,7 +41,6 @@ public class CourseService {
         course.setDescription(info.getDescription());
         course.setTotal_cost(info.getTotalCost());
         course.setTotal_trainings_count(info.getTotalTrainingsCount());
-        course.setCreator(user);
 
         courseRepo.save(course);
     }
