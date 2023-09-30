@@ -1,6 +1,7 @@
 package com.holydev.sportcharity.controllers;
 
 import com.holydev.sportcharity.DTO.courses.CourseDTO.CourseInfo;
+import com.holydev.sportcharity.DTO.courses.CourseDTO.CourseTrainingInfo;
 import com.holydev.sportcharity.entities.courses.Course;
 import com.holydev.sportcharity.entities.users.User;
 import com.holydev.sportcharity.services.EntityBased.courses.CourseService;
@@ -73,6 +74,20 @@ public class CoursesController {
     public void detach(@PathVariable long id) {
         var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         courseService.detachUser(authUser.getId(), id);
+    }
+
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
+    @Operation(summary = "add training to course")
+    @PostMapping("/add")
+    public void add(@RequestBody CourseTrainingInfo info) {
+        courseService.addTraining(info.getTrainingId(), info.getCourseId());
+    }
+
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
+    @Operation(summary = "remove training from course")
+    @PostMapping("/remove")
+    public void remove(@RequestBody CourseTrainingInfo info) {
+        courseService.removeTraining(info.getTrainingId(), info.getCourseId());
     }
 
     private CourseInfo convert(Course course) {

@@ -5,6 +5,7 @@ import com.holydev.sportcharity.entities.courses.Course;
 import com.holydev.sportcharity.global_utilities.Exceptions.AlreadyExistException;
 import com.holydev.sportcharity.global_utilities.Exceptions.NotFoundException;
 import com.holydev.sportcharity.repositories.courses.CourseRepository;
+import com.holydev.sportcharity.repositories.courses.TrainingRepository;
 import com.holydev.sportcharity.repositories.users.UserRepository;
 import com.holydev.sportcharity.services.RoleBased.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseService {
     private final CourseRepository courseRepo;
-    private final ExerciseService exerciseService;
+
     private final TrainingService trainingService;
+    private final TrainingRepository trainingRepository;
+
     private final UserService userService;
     private final UserRepository userRepository;
 
@@ -86,6 +89,32 @@ public class CourseService {
         userRepository.save(user);
 
         course.getUsers().remove(user);
+        courseRepo.save(course);
+    }
+
+    public void addTraining(long id, long courseId) {
+        var training = trainingService.get(id);
+        var course = get(courseId);
+
+        training.getCourses().add(course);
+        trainingRepository.save(training);
+
+        course.setTotal_trainings_count(course.getTotal_trainings_count() + 1);
+        course.setTotal_cost(course.getTotal_cost() + training.getTraining_cost());
+        course.getTrainings().add(training);
+        courseRepo.save(course);
+    }
+
+    public void removeTraining(long id, long courseId) {
+        var training = trainingService.get(id);
+        var course = get(courseId);
+
+        training.getCourses().remove(course);
+        trainingRepository.save(training);
+
+        course.setTotal_trainings_count(course.getTotal_trainings_count() - 1);
+        course.setTotal_cost(course.getTotal_cost() - training.getTraining_cost());
+        course.getTrainings().remove(training);
         courseRepo.save(course);
     }
 }
