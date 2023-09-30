@@ -1,5 +1,6 @@
 package com.holydev.sportcharity.controllers;
 
+import com.holydev.sportcharity.DTO.courses.CourseDTO.CourseAttachInfo;
 import com.holydev.sportcharity.DTO.courses.CourseDTO.CourseInfo;
 import com.holydev.sportcharity.DTO.courses.CourseDTO.CourseTrainingInfo;
 import com.holydev.sportcharity.entities.courses.Course;
@@ -63,9 +64,9 @@ public class CoursesController {
     @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT", "USER"})
     @Operation(summary = "attach user to course")
     @PostMapping("/attach/{id}")
-    public void attach(@PathVariable long id) {
+    public void attach(@RequestBody CourseAttachInfo info) {
         var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        courseService.attachUser(authUser.getId(), id);
+        courseService.attachUser(authUser.getId(), info.getCourseId());
     }
 
     @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT", "USER"})
