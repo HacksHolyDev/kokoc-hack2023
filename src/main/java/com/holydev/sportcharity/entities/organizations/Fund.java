@@ -29,6 +29,9 @@ public class Fund {
     @Column(unique = true)
     private String description;
 
+    @Column(unique = true)
+    private Long budget;
+
     @ElementCollection
     @CollectionTable(name = "funds_charity_categories", joinColumns = @JoinColumn(name = "owner_id"))
     private List<CharityCategory> charityCategories = new ArrayList<>();

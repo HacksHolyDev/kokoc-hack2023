@@ -1,6 +1,7 @@
 package com.holydev.sportcharity.entities.utilities;
 
 import com.holydev.sportcharity.entities.courses.Course;
+import com.holydev.sportcharity.entities.organizations.CharityCategory;
 import com.holydev.sportcharity.entities.organizations.Fund;
 import com.holydev.sportcharity.entities.users.User;
 import jakarta.persistence.*;
@@ -34,5 +35,9 @@ public class CourseUserFundMapper {
     @ManyToOne
     @JoinColumn(name = "fund_id")
     private Fund fund;
+
+    @Enumerated(EnumType.STRING)
+    private CharityCategory charity_category;
+
 
 }

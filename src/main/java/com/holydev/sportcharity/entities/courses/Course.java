@@ -1,7 +1,6 @@
 package com.holydev.sportcharity.entities.courses;
 
 
-import com.holydev.sportcharity.entities.organizations.CharityCategory;
 import com.holydev.sportcharity.entities.users.User;
 import com.holydev.sportcharity.entities.utilities.CourseUserFundMapper;
 import jakarta.persistence.*;
@@ -28,9 +27,6 @@ public class Course {
 
     @Column(nullable = false, unique = true)
     private String description;
-
-    @Enumerated(EnumType.STRING)
-    private CharityCategory charity_category;
 
     @Column
     private int total_trainings_count;
