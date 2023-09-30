@@ -40,7 +40,7 @@ public class CoursesController {
     @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
     @Operation(summary = "Create course")
     @PostMapping
-    public ResponseEntity<CourseInfo> createCourse(@RequestBody CourseInfo info) {
+    public ResponseEntity<CourseInfo> create(@RequestBody CourseInfo info) {
         var object = courseService.create(info);
         return ResponseEntity.ok(convert(object));
     }

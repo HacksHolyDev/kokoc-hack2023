@@ -30,6 +30,9 @@ public class Training {
     @Column
     private int training_cost;
 
+    @Column
+    private boolean deleted;
+
     @ToString.Exclude
     @OneToMany
     @Builder.Default

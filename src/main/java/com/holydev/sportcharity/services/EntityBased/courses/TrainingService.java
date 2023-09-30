@@ -1,8 +1,6 @@
 package com.holydev.sportcharity.services.EntityBased.courses;
 
-import com.holydev.sportcharity.DTO.courses.ExerciseDTO.ExerciseInfo;
 import com.holydev.sportcharity.DTO.courses.TrainingDTO.TrainingInfo;
-import com.holydev.sportcharity.entities.courses.Exercise;
 import com.holydev.sportcharity.entities.courses.Training;
 import com.holydev.sportcharity.entities.courses.TrainingType;
 import com.holydev.sportcharity.global_utilities.Exceptions.AlreadyExistException;
@@ -30,37 +28,43 @@ public class TrainingService {
 
     public Training get(long id) {
         return trainingRepo.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("Not found training id = %d", id)));
+                .orElseThrow(() -> new NotFoundException(String.format("Not found object id = %d", id)));
     }
 
-    public void create(long userId, TrainingInfo info) {
-        var user = userService.getUser(userId);
-
-        var course = new Training();
-        course.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
-
-        trainingRepo.save(course);
-    }
-
-    public void update(long courseId, ExerciseInfo info) {
-        var existCourse = trainingRepo.findById(courseId);
-        if (existCourse.isEmpty()) {
-            throw new NotFoundException(String.format("Not found exer id = %d", courseId));
+    public Training create(TrainingInfo info) {
+        var existObject = trainingRepo.findByName(info.getName());
+        if (existObject.isPresent()) {
+            throw new AlreadyExistException(String.format("Exist object name = %s", info.getName()));
         }
 
-        var course = existCourse.get();
-        course.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
+        var object = new Training();
+        object.setName(info.getName());
+        object.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
 
-        trainingRepo.save(course);
+        return trainingRepo.save(object);
     }
 
-    public void delete(long courseId) {
-        var existCourse = trainingRepo.findById(courseId);
-        if (existCourse.isEmpty()) {
-            throw new NotFoundException(String.format("Not found exer id = %d", courseId));
+    public void update(long id, TrainingInfo info) {
+        var existObject = trainingRepo.findById(id);
+        if (existObject.isEmpty()) {
+            throw new NotFoundException(String.format("Not found object id = %d", id));
         }
 
-        var course = existCourse.get();
-        trainingRepo.delete(course);
+        var object = existObject.get();
+        object.setName(info.getName());
+        object.setTraining_type(TrainingType.valueOf(info.getTraining_type()));
+
+        trainingRepo.save(object);
+    }
+
+    public void delete(long id) {
+        var existObject = trainingRepo.findById(id);
+        if (existObject.isEmpty()) {
+            throw new NotFoundException(String.format("Not found object id = %d", id));
+        }
+
+        var object = existObject.get();
+        object.setDeleted(true);
+        trainingRepo.save(object);
     }
 }
