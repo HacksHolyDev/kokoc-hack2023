@@ -8,6 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CourseInfo {
+    private long id;
+
     private String name;
 
     private String description;

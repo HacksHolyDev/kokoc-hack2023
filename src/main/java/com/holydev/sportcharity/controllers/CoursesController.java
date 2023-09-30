@@ -67,6 +67,7 @@ public class CoursesController {
 
     private CourseInfo convert(Course course) {
         return CourseInfo.builder()
+                .id(course.getId())
                 .name(course.getName())
                 .description(course.getDescription())
                 .totalTrainingsCount(course.getTotal_trainings_count())
