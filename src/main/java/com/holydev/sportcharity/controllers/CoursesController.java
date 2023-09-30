@@ -20,6 +20,8 @@ import java.util.List;
 public class CoursesController {
     private final CourseService courseService;
 
+    @UserAuth
+    @AdminAuth
     @Operation(summary = "get all courses")
     @GetMapping
     public ResponseEntity<List<CourseInfo>> getCourses() {
