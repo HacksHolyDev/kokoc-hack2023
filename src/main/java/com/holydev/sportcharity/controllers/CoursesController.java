@@ -21,7 +21,6 @@ public class CoursesController {
     private final CourseService courseService;
 
     @UserAuth
-    @AdminAuth
     @Operation(summary = "get all courses")
     @GetMapping
     public ResponseEntity<List<CourseInfo>> getCourses() {
@@ -34,7 +33,6 @@ public class CoursesController {
 
 
     @UserAuth
-    @AdminAuth
     @Operation(summary = "get course")
     @GetMapping("/{id}")
     public ResponseEntity<CourseInfo> getCourse(@PathVariable long id) {

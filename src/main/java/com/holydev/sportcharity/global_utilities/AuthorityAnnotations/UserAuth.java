@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@PreAuthorize("hasRole(T(com.holydev.sportcharity.entities.users.Role).USER)")
+@PreAuthorize("hasAnyRole(T(com.holydev.sportcharity.entities.users.Role).USER, T(com.holydev.sportcharity.entities.users.Role).ADMIN)")
 public @interface UserAuth {
 }
