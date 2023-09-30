@@ -3,7 +3,6 @@ package com.holydev.sportcharity.services.Security;
 
 import com.holydev.sportcharity.DTO.Auth.AuthMailRequest;
 import com.holydev.sportcharity.DTO.Auth.AuthResponse;
-import com.holydev.sportcharity.DTO.Auth.AuthUNameRequest;
 import com.holydev.sportcharity.DTO.Auth.Register.RegistrationRequest;
 import com.holydev.sportcharity.entities.users.Role;
 import com.holydev.sportcharity.entities.users.User;
@@ -26,21 +25,23 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse register(RegistrationRequest request) {
+    public AuthResponse registerAccount(RegistrationRequest request, Role role) {
         var user = User.builder()
-                .username(request.getUsername())
                 .fio(request.getFio())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(role)
                 .build();
+
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         saveUserToken(savedUser, jwtToken);
         return AuthResponse.builder()
                 .token(jwtToken)
+                .role(user.getRole().getAuthority())
                 .build();
     }
+
 
     public AuthResponse authenticateEmail(AuthMailRequest request) {
         authenticationManager.authenticate(
@@ -56,23 +57,7 @@ public class AuthService {
         saveUserToken(user, jwtToken);
         return AuthResponse.builder()
                 .token(jwtToken)
-                .build();
-    }
-
-    public AuthResponse authenticateUName(AuthUNameRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
-        var user = repository.findByUsername(request.getUsername())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
-        return AuthResponse.builder()
-                .token(jwtToken)
+                .role(user.getRole().getAuthority())
                 .build();
     }
 

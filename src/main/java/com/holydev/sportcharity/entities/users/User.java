@@ -31,20 +31,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
     @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String fio;
 
     @Column(nullable = false, unique = true)
     //@Setter(AccessLevel.NONE)
     @ToString.Exclude
     private String password;
-
 
     @Enumerated(EnumType.STRING)
     private Role role;

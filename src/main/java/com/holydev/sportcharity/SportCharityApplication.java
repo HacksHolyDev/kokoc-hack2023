@@ -23,7 +23,6 @@ public class SportCharityApplication {
     ApplicationRunner init(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         if (userRepository.findAll().isEmpty()) {
             var admin = new User();
-            admin.setUsername("1");
             admin.setEmail("1");
             admin.setFio("1");
             admin.setPassword(passwordEncoder.encode("1"));
@@ -31,7 +30,6 @@ public class SportCharityApplication {
             userRepository.save(admin);
 
             admin = new User();
-            admin.setUsername("2");
             admin.setEmail("2");
             admin.setFio("2");
             admin.setPassword(passwordEncoder.encode("2"));
