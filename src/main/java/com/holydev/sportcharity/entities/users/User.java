@@ -48,7 +48,7 @@ public class User implements UserDetails {
     @ToString.Exclude
     private List<Token> tokens;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Builder.Default
     @ToString.Exclude
     @JoinTable(name = "users_courses",

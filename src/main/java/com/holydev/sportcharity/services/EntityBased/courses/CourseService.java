@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,10 @@ public class CourseService {
     public Course get(long id) {
         return courseRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Not found object id = %d", id)));
+    }
+
+    public Set<Course> getUser(long id) {
+        return userService.getUser(id).getCourses();
     }
 
     public Course create(CourseInfo info) {

@@ -39,6 +39,17 @@ public class CoursesController {
         return ResponseEntity.ok(convert(object));
     }
 
+    @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT", "USER"})
+    @Operation(summary = "get user courses")
+    @GetMapping("/user")
+    public ResponseEntity<List<CourseInfo>> getUser() {
+        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var objects = courseService.getUser(authUser.getId())
+                .stream().map(this::convert)
+                .toList();
+        return ResponseEntity.ok(objects);
+    }
+
     @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT"})
     @Operation(summary = "Create course")
     @PostMapping
