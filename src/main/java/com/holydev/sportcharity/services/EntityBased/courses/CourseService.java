@@ -33,6 +33,12 @@ public class CourseService {
                 .orElseThrow(() -> new NotFoundException(String.format("Not found object id = %d", id)));
     }
 
+    public List<Course> getUser(long id) {
+        return userService.getUser(id).getCourses()
+                .stream().filter(x -> !x.isDeleted())
+                .toList();
+    }
+
     public Course create(CourseInfo info) {
         var existObject = courseRepo.findByName(info.getName());
         if (existObject.isPresent()) {

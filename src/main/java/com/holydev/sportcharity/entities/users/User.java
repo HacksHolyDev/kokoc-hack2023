@@ -45,13 +45,13 @@ public class User implements UserDetails {
     private Role role;
 
     @Column
-    private int money;
+    private int money = 0;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Token> tokens;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Builder.Default
     @ToString.Exclude
     @JoinTable(name = "users_courses",
