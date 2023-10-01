@@ -1,6 +1,7 @@
 package com.holydev.sportcharity.controllers;
 
 
+import com.holydev.sportcharity.entities.users.User;
 import com.holydev.sportcharity.services.EntityBased.courses.CourseService;
 import com.holydev.sportcharity.services.EntityBased.courses.ExerciseService;
 import com.holydev.sportcharity.services.EntityBased.courses.TrainingService;
@@ -9,6 +10,7 @@ import com.holydev.sportcharity.services.EntityBased.organizations.FundService;
 import com.holydev.sportcharity.services.RoleBased.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -47,6 +49,7 @@ public class AdminController {
     // Взаимодействие с отделами (Department)
     @GetMapping("dep/{id}")
     public ResponseEntity<String> getDepartment() {
+        var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return null;
     }
 

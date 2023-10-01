@@ -45,6 +45,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column
+    private int money;
+
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Token> tokens;
