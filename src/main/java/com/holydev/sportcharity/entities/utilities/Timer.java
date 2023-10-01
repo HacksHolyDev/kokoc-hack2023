@@ -1,11 +1,11 @@
 package com.holydev.sportcharity.entities.utilities;
 
-import com.holydev.sportcharity.entities.courses.Training;
+import com.holydev.sportcharity.entities.courses.Exercise;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 @Entity
@@ -21,25 +21,23 @@ public class Timer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO - сделать поля для дат
+    private String name;
 
-    private int start_date;
+    private String description;
 
-    private int period;
+    private LocalDate date;
 
-    private int start_time;
+    private long durationInMinutes;
 
-    private int duration;
-
+    private LocalTime start_time;
 
     @ManyToOne
     @JoinColumn(name = "owning_planner_id")
     private Planner owning_planner;
 
-
     @ToString.Exclude
-    @ManyToMany(mappedBy = "users_timers")
-    @Builder.Default
-    private List<Training> trainings = new LinkedList<>();
+    @ManyToOne
+    @JoinColumn(name = "exercise_id")
+    private Exercise exercise;
 
 }

@@ -1,16 +1,13 @@
-package com.holydev.sportcharity.entities.DTO.Auth;
+package com.holydev.sportcharity.DTO.utilities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-
-    private String token;
-
+public class StatisticsInfo {
+    private String fio;
+    private int amount;
 }

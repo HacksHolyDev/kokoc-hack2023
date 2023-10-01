@@ -2,7 +2,6 @@ package com.holydev.sportcharity.entities.users;
 
 
 import com.holydev.sportcharity.entities.courses.Course;
-import com.holydev.sportcharity.entities.courses.Exercise;
 import com.holydev.sportcharity.entities.organizations.Department;
 import com.holydev.sportcharity.entities.organizations.Fund;
 import com.holydev.sportcharity.entities.utilities.Planner;
@@ -31,43 +30,39 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
     @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String fio;
 
     @Column(nullable = false, unique = true)
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     @ToString.Exclude
     private String password;
 
-
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column
+    private int money;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<Token> tokens;
 
-    @OneToMany(mappedBy = "creator", orphanRemoval = true)
+    @ManyToMany
     @Builder.Default
     @ToString.Exclude
-    private Set<Course> created_courses = new LinkedHashSet<>();
+    @JoinTable(name = "users_courses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses = new LinkedHashSet<>();
 
-
-    @OneToMany(mappedBy = "creator", orphanRemoval = true)
-    @Builder.Default
-    @ToString.Exclude
-    private Set<Exercise> created_exercises = new LinkedHashSet<>();
 
     @ToString.Exclude
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "planner_id")
-    private Planner planner;
+    @OneToMany
+    private Set<Planner> planners = new LinkedHashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "fund_id")

@@ -25,7 +25,7 @@ public class Course {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String description;
 
     @Column
@@ -34,10 +34,22 @@ public class Course {
     @Column
     private int total_cost;
 
+    @Column
+    private boolean deleted;
+
     @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private User creator;
+    @ManyToMany
+    @JoinTable(name = "users_courses",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new LinkedHashSet<>();
+
+    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(name = "course_training",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "training_id"))
+    private Set<Training> trainings = new LinkedHashSet<>();
 
 
     @OneToMany(mappedBy = "course", orphanRemoval = true)

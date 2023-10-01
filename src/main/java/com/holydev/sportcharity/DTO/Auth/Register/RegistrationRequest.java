@@ -1,4 +1,4 @@
-package com.holydev.sportcharity.entities.DTO.Auth;
+package com.holydev.sportcharity.DTO.Auth.Register;
 
 
 import lombok.AllArgsConstructor;
@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthUNameRequest {
-    private String username;
+public class RegistrationRequest {
 
+    private String fio;
+    private String email;
     private String password;
+
 }

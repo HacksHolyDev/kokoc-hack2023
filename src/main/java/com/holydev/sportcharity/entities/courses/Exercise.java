@@ -1,6 +1,6 @@
 package com.holydev.sportcharity.entities.courses;
 
-import com.holydev.sportcharity.entities.users.User;
+import com.holydev.sportcharity.entities.utilities.Timer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,12 +23,10 @@ public class Exercise {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
     private String description;
 
     @Column
     private String href;
-
 
     @Column(nullable = false)
     private int cost_per_retry;
@@ -39,23 +37,28 @@ public class Exercise {
     @Column(nullable = false)
     private int maximal_retry;
 
-    @ToString.Exclude
+    @Column
+    private boolean deleted;
+
+/*    @ToString.Exclude
     @OneToMany(orphanRemoval = true)
     @Builder.Default
-    private Set<Exercise> similar_exercises = new LinkedHashSet<>();
-
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private User creator;
+    private Set<Exercise> similar_exercises = new LinkedHashSet<>();*/
 
     @Enumerated(EnumType.STRING)
     private TrainingType training_type;
 
-
-    @ManyToMany(mappedBy = "exercises")
+    @ManyToMany
     @ToString.Exclude
     @Builder.Default
+    @JoinTable(name = "trainings_exercises",
+            joinColumns = @JoinColumn(name = "exercises_id"),
+            inverseJoinColumns = @JoinColumn(name = "training_id"))
     private Set<Training> trainings = new LinkedHashSet<>();
+
+    @OneToMany
+    @ToString.Exclude
+    @Builder.Default
+    private Set<Timer> timers = new LinkedHashSet<>();
 
 }
