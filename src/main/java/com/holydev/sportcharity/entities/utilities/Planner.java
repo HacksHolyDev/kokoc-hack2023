@@ -1,11 +1,10 @@
 package com.holydev.sportcharity.entities.utilities;
 
 
+import com.holydev.sportcharity.entities.courses.Training;
+import com.holydev.sportcharity.entities.users.User;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "planners")
@@ -20,9 +19,16 @@ public class Planner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "owning_planner", orphanRemoval = true)
-    @Builder.Default
-    private Set<Timer> train_timers = new LinkedHashSet<>();
+    @Column
+    private boolean finished;
 
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ToString.Exclude
+    @ManyToOne
+    @JoinColumn(name = "training_id")
+    private Training training;
 }
