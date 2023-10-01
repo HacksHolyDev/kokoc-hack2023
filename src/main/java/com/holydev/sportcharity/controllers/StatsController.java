@@ -19,11 +19,29 @@ public class StatsController {
 
     @GetMapping("/top10money")
     public ResponseEntity<List<StatisticsInfo>> getTop10money() {
-
-        return ResponseEntity.ok(statisticsService.getTop10Money().stream().map(
-                x -> StatisticsInfo.builder()
-                        .fio(x.getFio())
-                        .amount(x.getMoney())
-                        .build()).toList());
+        try {
+            return ResponseEntity.ok(statisticsService.getTop10Money().stream().map(
+                    x -> StatisticsInfo.builder()
+                            .fio(x.getFio())
+                            .amount(x.getMoney())
+                            .build()).toList());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
+
+    @GetMapping("/top10train")
+    public ResponseEntity<List<StatisticsInfo>> getTop10train() {
+        try {
+            return ResponseEntity.ok(statisticsService.getTop10TrainCount().stream().map(
+                    x -> StatisticsInfo.builder()
+                            .fio(x.fio())
+                            .amount(x.amount())
+                            .build()).toList());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
 }
