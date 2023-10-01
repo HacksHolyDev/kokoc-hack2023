@@ -1,0 +1,268 @@
+{
+  "exercises": [
+    {
+      "id": 1,
+      "name": "Сгибание шеи лёжа на скамье",
+      "description": "Целевые мышцы Упражнения для мышц шеи",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/60847fe1d3487906ee8a58ca75aa4797e9104f62.jpg",
+      "cost_per_retry": 50,
+      "minimal_retry": 20,
+      "maximal_retry": 10,
+      "training_type": "STRENGTH"
+    },
+    {
+      "id": 2,
+      "name": "Разгибание шеи лёжа на скамье",
+      "description": "Целевые мышцы Упражнения для мышц шеи",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/6fdc5435350e442aa4e7a03f5e0a7e98b2d59cf9.jpg",
+      "cost_per_retry": 43,
+      "minimal_retry": 15,
+      "maximal_retry": 7,
+      "training_type": "STRENGTH"
+    },
+    {
+      "id": 3,
+      "name": "Подтягивания обратным хватом",
+      "description": "Упражнения для широчайших мышц спины",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/ff89a0c39059116a92f50daed3c90e7c9bff3ff5.jpeg",
+      "cost_per_retry": 67,
+      "minimal_retry": 25,
+      "maximal_retry": 10,
+      "training_type": "MSS"
+    },
+    {
+      "id": 4,
+      "name": "Тяга в петлях к груди",
+      "description": "Упражнения для бицепса",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/926386256471c20afaeeadf872162b115808353d.jpg",
+      "cost_per_retry": 23,
+      "minimal_retry": 30,
+      "maximal_retry": 5,
+      "training_type": "MSS"
+    },
+    {
+      "id": 5,
+      "name": "Жим штанги лежа на наклонной скамье",
+      "description": "Упражнения на трицепс",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/7213ad81bbeb0e65069024f7a3a8be0f75c6df3b.jpeg",
+      "cost_per_retry": 65,
+      "minimal_retry": 20,
+      "maximal_retry": 10,
+      "training_type": "COORDINATION"
+    },
+    {
+      "id": 6,
+      "name": "Отжимания от пола",
+      "description": "Упражнения для мышц груди",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/b68020456907f251499e30e331730a547e529a21.jpg",
+      "cost_per_retry": 33,
+      "minimal_retry": 20,
+      "maximal_retry": 10,
+      "training_type": "COORDINATION"
+    },
+    {
+      "id": 7,
+      "name": "Становая тяга классическая",
+      "description": "Упражнения для нижней части спины",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/304b8b3955c281ce4fdb9946ad5ce8382d536d80.jpg",
+      "cost_per_retry": 75,
+      "minimal_retry": 15,
+      "maximal_retry": 8,
+      "training_type": "CARDIO"
+    },
+    {
+      "id": 8,
+      "name": "Сгибание рук на скамье Скотта",
+      "description": "Целевые мышцы Упражнения для бицепса",
+      "href": "https://iq-body.ru/uploads/ra/349x287/training/original/9972c08172351cc14e336faa773d4edcf7c88d1f.jpg",
+      "cost_per_retry": 34,
+      "minimal_retry": 14,
+      "maximal_retry": 6,
+      "training_type": "CARDIO"
+    }
+  ],
+  "trainings": [
+    {
+      "id": 1,
+      "name": "Силовые упражнения",
+      "training_type": "STRENGTH",
+      "exercises": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Тренировка мышц",
+      "training_type": "MSS",
+      "exercises": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Упражнения в зале",
+      "training_type": "COORDINATION",
+      "exercises": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Тяжелые упражнения",
+      "training_type": "CARDIO",
+      "exercises": [
+        7,
+        8
+      ]
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "name": "Тяжелые упражнения",
+      "description": "Силовые упражнения",
+      "trainings": [
+        1
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Тренировка мышц",
+      "description": "Тяжелые упражнения",
+      "trainings": [
+        2
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Упражнения в зале",
+      "description": "Координация",
+      "trainings": [
+        3
+      ]
+    },{
+      "id": 4,
+      "name": "Кардио",
+      "description": "Тренировка кардио",
+      "trainings": [
+        4
+      ]
+    }
+  ],
+  "fund": [
+    {
+      "id": 1,
+      "name": "Животные",
+      "description": "Помощь животным",
+      "budget": 450
+    },
+    {
+      "id": 2,
+      "name": "Сироты",
+      "description": "Помощь сиротам",
+      "budget": 500
+    },
+    {
+      "id": 3,
+      "name": "Океан",
+      "description": "Помощь животным в море",
+      "budget": 600
+    }
+  ],
+  "users": [
+    {
+      "email": "q@gmail.com",
+      "fio": "Вероника Овчинникова",
+      "password": "q",
+      "role": "USER",
+      "money": "1534"
+    },
+    {
+      "email": "w@gmail.com",
+      "fio": "Лука Сорокин",
+      "password": "w",
+      "role": "USER",
+      "money": "435"
+    },
+    {
+      "email": "e@gmail.com",
+      "fio": "Илья Комиссаров",
+      "password": "e",
+      "role": "USER",
+      "money": "156"
+    },
+    {
+      "email": "r@gmail.com",
+      "fio": "Максим Тихонов",
+      "password": "r",
+      "role": "USER",
+      "money": "864"
+    },
+    {
+      "email": "t@gmail.com",
+      "fio": "Софья Черных",
+      "password": "t",
+      "role": "ADMIN",
+      "money": "877"
+    },
+    {
+      "email": "y@gmail.com",
+      "fio": "Валерия Новикова",
+      "password": "y",
+      "role": "ADMIN",
+      "money": "770"
+    },
+    {
+      "email": "u@gmail.com",
+      "fio": "Артём Алексеев",
+      "password": "u",
+      "role": "DEP_HEAD",
+      "money": "1120"
+    },
+    {
+      "email": "i@gmail.com",
+      "fio": "Роман Румянцев",
+      "password": "i",
+      "role": "DEP_HEAD",
+      "money": "1143"
+    },
+    {
+      "email": "o@gmail.com",
+      "fio": "Анна Маркова",
+      "password": "o",
+      "role": "USER",
+      "money": "1008"
+    },
+    {
+      "email": "p@gmail.com",
+      "fio": "Марк Семенов",
+      "password": "p",
+      "role": "USER",
+      "money": "964"
+    },
+    {
+      "email": "a@gmail.com",
+      "fio": "Адам Мартынов",
+      "password": "a",
+      "role": "USER",
+      "money": "111"
+    },
+    {
+      "email": "s@gmail.com",
+      "fio": "Даниэль Козлов",
+      "password": "s",
+      "role": "USER",
+      "money": "345"
+    },
+    {
+      "email": "f@gmail.com",
+      "fio": "Марк Семенов",
+      "password": "f",
+      "role": "ADMIN",
+      "money": "673"
+    }
+  ]
+}

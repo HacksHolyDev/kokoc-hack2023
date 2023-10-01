@@ -1,18 +1,35 @@
 package com.holydev.sportcharity;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.holydev.sportcharity.entities.courses.Exercise;
+import com.holydev.sportcharity.entities.courses.Training;
 import com.holydev.sportcharity.entities.courses.TrainingType;
-import com.holydev.sportcharity.entities.users.Role;
-import com.holydev.sportcharity.entities.users.User;
+import com.holydev.sportcharity.repositories.courses.CourseRepository;
 import com.holydev.sportcharity.repositories.courses.ExerciseRepository;
 import com.holydev.sportcharity.repositories.courses.TrainingRepository;
+import com.holydev.sportcharity.repositories.organizations.FundRepository;
 import com.holydev.sportcharity.repositories.users.UserRepository;
+import com.holydev.sportcharity.services.EntityBased.courses.CourseService;
+import com.holydev.sportcharity.services.EntityBased.courses.ExerciseService;
+import com.holydev.sportcharity.services.EntityBased.courses.TrainingService;
+import com.holydev.sportcharity.services.EntityBased.organizations.FundService;
+import com.holydev.sportcharity.services.RoleBased.UserService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @SpringBootApplication
 public class SportCharityApplication {
@@ -23,76 +40,59 @@ public class SportCharityApplication {
         application.run(args);
     }
 
+
     @Bean
-    ApplicationRunner init(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           ExerciseRepository exerciseRepository, TrainingRepository trainingRepository) {
+    public ApplicationRunner init(UserRepository userRepository, UserService userService,
+                                  CourseRepository courseRepository, CourseService courseService,
+                                  TrainingRepository trainingRepository, TrainingService trainingService,
+                                  ExerciseRepository exerciseRepository, ExerciseService exerciseService,
+                                  FundRepository fundRepository, FundService fundService,
+                                  PasswordEncoder passwordEncoder) {
+        var adminSeed = "seed.json";
         if (userRepository.findAll().isEmpty()) {
-            var admin = new User();
-            admin.setEmail("1");
-            admin.setFio("1");
-            admin.setPassword(passwordEncoder.encode("1"));
-            admin.setRole(Role.ADMIN);
-            userRepository.save(admin);
+            if (Files.exists(Path.of(adminSeed))) {
+                var parser = new ObjectMapper();
+                parser.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-            admin = new User();
-            admin.setEmail("2");
-            admin.setFio("2");
-            admin.setPassword(passwordEncoder.encode("2"));
-            admin.setRole(Role.USER);
-            userRepository.save(admin);
+                try (Reader reader = new FileReader(adminSeed, StandardCharsets.UTF_8)) {
+                    LinkedHashMap<String, List<LinkedHashMap<String, Object>>> seedData = parser.readValue(reader, LinkedHashMap.class);
 
-            admin = new User();
-            admin.setEmail("3");
-            admin.setFio("3");
-            admin.setPassword(passwordEncoder.encode("3"));
-            admin.setRole(Role.DEP_HEAD);
-            userRepository.save(admin);
+                    if (userRepository.findAll().isEmpty()) {
+                        for (var i : seedData.get("exercises")) {
+                            var exercise = new Exercise();
+                            exercise.setId(Long.valueOf(i.get("id").toString()));
+                            exercise.setName(i.get("name").toString());
+                            exercise.setDescription(i.get("description").toString());
+                            exercise.setHref(i.get("href").toString());
+                            exercise.setCost_per_retry(Integer.parseInt(i.get("cost_per_retry").toString()));
+                            exercise.setMinimal_retry(Integer.parseInt(i.get("minimal_retry").toString()));
+                            exercise.setMaximal_retry(Integer.parseInt(i.get("maximal_retry").toString()));
+                            exercise.setTraining_type(TrainingType.valueOf(i.get("training_type").toString()));
+                            exerciseRepository.save(exercise);
+                        }
 
-            admin = new User();
-            admin.setEmail("4");
-            admin.setFio("4");
-            admin.setPassword(passwordEncoder.encode("4"));
-            admin.setRole(Role.FUND_AGENT);
-            userRepository.save(admin);
+                        for (var i : seedData.get("trainings")) {
+                            var exercise = new Training();
+                            exercise.setId(Long.valueOf(i.get("id").toString()));
+                            exercise.setName(i.get("name").toString());
+                            exercise.setTraining_type(TrainingType.valueOf(i.get("training_type").toString()));
+                            trainingRepository.save(exercise);
+                            //for (var j : (List<Integer>) i.get("exercises")) {
+                            //    trainingService.addExercise(j, exercise.getId());
+                            //}
+
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return args -> System.out.println("Seeding error! IOException!");
+                }
+                System.out.println("Seeding ended.");
+            } else {
+                System.out.println("adminseed not exist");
+            }
         }
-
-        if (exerciseRepository.findAll().isEmpty()) {
-            var exercise = new Exercise();
-            ;
-            exercise.setName("Тестовая");
-            exercise.setDescription("ТестовОЕ УПРАЖНЕНИЕ ");
-            exercise.setHref("Тест");
-            exercise.setCost_per_retry(11);
-            exercise.setMinimal_retry(5);
-            exercise.setMaximal_retry(12);
-            exercise.setTraining_type(TrainingType.CARDIO);
-            exerciseRepository.save(exercise);
-
-            exercise = new Exercise();
-            ;
-            exercise.setName("Ты еблан???");
-            exercise.setDescription("Ебобо чтоли ?");
-            exercise.setHref("Тест");
-            exercise.setCost_per_retry(11222);
-            exercise.setMinimal_retry(345);
-            exercise.setMaximal_retry(12454);
-            exercise.setTraining_type(TrainingType.COORDINATION);
-            exerciseRepository.save(exercise);
-
-            exercise = new Exercise();
-            ;
-            exercise.setName("Откуда у меня эти шрамы");
-            exercise.setDescription("Как провести описание");
-            exercise.setHref("Тест");
-            exercise.setCost_per_retry(99);
-            exercise.setMinimal_retry(51);
-            exercise.setMaximal_retry(55);
-            exercise.setTraining_type(TrainingType.CARDIO);
-            exerciseRepository.save(exercise);
-        }
-
         return args -> {
         };
     }
-
 }
