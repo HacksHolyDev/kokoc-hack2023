@@ -6,6 +6,7 @@ import com.holydev.sportcharity.DTO.courses.CourseDTO.CourseTrainingInfo;
 import com.holydev.sportcharity.entities.courses.Course;
 import com.holydev.sportcharity.entities.users.User;
 import com.holydev.sportcharity.services.EntityBased.courses.CourseService;
+import com.holydev.sportcharity.services.EntityBased.organizations.FundService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CoursesController {
     private final CourseService courseService;
+    private final FundService fundService;
 
     @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT", "USER"})
     @Operation(summary = "get all courses")
@@ -78,6 +80,7 @@ public class CoursesController {
     public void attach(@RequestBody CourseAttachInfo info) {
         var authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         courseService.attachUser(authUser.getId(), info.getCourseId());
+        fundService.addUser(authUser.getId(), info.getFundId());
     }
 
     @RolesAllowed({"ADMIN", "DEP_HEAD", "FUND_AGENT", "USER"})
